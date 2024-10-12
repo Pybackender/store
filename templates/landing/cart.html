@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Liquor Store - Free Bootstrap 4 Template by Colorlib</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	{% include '../partials/_style.html' %}
+</head>
+
+<body>
+
+	<div class="wrap">
+		<div class="container">
+			<div class="row">
+				{% for i in info %}
+				<div class="col-md-6 d-flex align-items-center">
+					<p class="mb-0 phone pl-md-2">
+						<a href="tel:{{ i.phone }}" class="mr-2"><span class="fa fa-phone mr-1"></span>{{ i.phone}}</a>
+						<a href="https://t.me/{{ i.telegram }}"><span class="fa fa-paper-plane mr-1"></span>
+							{{i.telegram }}<a>
+					</p>
+				</div>
+				{% endfor %}
+				<div class="col-md-6 d-flex justify-content-md-end">
+					{% for i in info %}
+					<div class="social-media mr-4">
+						<p class="mb-0 d-flex">
+							<a href="{{ i.facebook }}" class="d-flex align-items-center justify-content-center"><span
+									class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
+							<a href="{{ i.discord }}" class="d-flex align-items-center justify-content-center"><span
+									class="fab fa-discord"><i class="sr-only">discord</i></span></a>
+							<a href="{{ i.instagram }}" class="d-flex align-items-center justify-content-center"><span
+									class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
+						</p>
+					</div>
+					{% endfor %}
+					<div class="reg">
+						<p class="mb-0"><a href="register/" class="mr-2">Sign Up</a> <a href="login/">Log In</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% include 'shared/nav.html' %}
+	<!-- END nav -->
+
+	<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');"
+		data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-end justify-content-center">
+				<div class="col-md-9 ftco-animate mb-5 text-center">
+					<p class="breadcrumbs mb-0"><span class="mr-2"><a href="index">Home <i
+									class="fa fa-chevron-right"></i></a></span> <span>Cart <i
+								class="fa fa-chevron-right"></i></span></p>
+					<h2 class="mb-0 bread">My Cart</h2>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row">
+				<div class="table-wrap">
+					<table class="table">
+						<thead class="thead-primary">
+							<tr>
+								<th>&nbsp;</th>
+								<th>&nbsp;</th>
+								<th>Product</th>
+								<th>Price</th>
+								<th>Quantity</th>
+								<th>Total</th>
+								<th>&nbsp;</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in cart %}
+							<tr class="alert" role="alert">
+								<td>
+									<label class="checkbox-wrap checkbox-primary">
+										<input type="checkbox" checked>
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td>
+									<div class="img" style="background-image: url('{% if item.product.image and item.product.image.url %}{{ item.product.image.url }}{% else %}{% static 'assets/img/no_image.png' %} {% endif %}')">
+									</div>
+								</td>
+								<td>
+									<div class="email">
+										<span>{{ item.product.name }}</span>
+										<span>{{ item.product.type }}</span>
+									</div>
+								</td>
+								<td>${{ item.price }}</td>
+								<td class="quantity">
+									<div class="input-group">
+										<form action="{% url 'cart:cart_add' item.product.id %}" method="post">
+											{% csrf_token %}
+											<input type="hidden" name="override" value="True">
+											<input type="text" name="quantity"
+												class="quantity form-control input-number" value="{{ item.quantity }}"
+												min="1" max="100">
+											<button type="submit" class="btn btn-outline-primary">Update</button>
+										</form>
+
+									</div>
+								</td>
+								<td>${{ item.total_price }}</td>
+								<td>
+									<form action="{% url 'cart:cart_remove' item.product.id %}" method="post">
+										{% csrf_token %}
+										<button type="submit" class="close" aria-label="Close">
+											<span aria-hidden="true"><i class="fa fa-close">remove</i></span>
+										</button>
+									</form>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<a href="product">Continue shopping</a>
+
+			<div class="row justify-content-end">
+				<div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+					<div class="cart-total mb-3">
+						<h3>Cart Totals</h3>
+						<p class="d-flex">
+							<span>Subtotal</span>
+							<span>${{ cart.get_total_price }}</span>
+						</p>
+						<p class="d-flex">
+							<span>Delivery</span>
+							<span>${{ delivery|floatformat:2 }}</span>
+						</p>
+						<p class="d-flex">
+							<span>Discount</span>
+							<span>${{ discount|floatformat:2 }}</span>
+						</p>
+						<hr>
+						<p class="d-flex total-price">
+							<span>Total</span>
+							<span>${{ total_price|floatformat:2 }}</span>
+						</p>
+					</div>
+					<p class="text-center"><a href="checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{% include 'shared/info.html' %}
+
+
+
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+				stroke="#F96D00" />
+		</svg></div>
+
+	{% include '../partials/_scripts.html' %}
+
+</body>
+
+</html>

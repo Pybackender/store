@@ -1,0 +1,42 @@
+{% load static %}
+<section class="ftco-section ftco-no-pb">
+    <div class="container">
+        {% for i in about %}
+        <div class="row">
+            <div class="col-md-6 img img-3 d-flex justify-content-center align-items-center"
+                style="background-image: url('{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')">
+            </div>
+            <div class="col-md-6 wrap-about pl-md-5 ftco-animate py-5">
+                <div class="heading-section">
+                    <span class="subheading"> since {{ i.since }}</span>
+                    <h2 class="mb-4">{{ i.title }}</h2>
+
+                    <p>{{ i.content }}</p>
+                    <p class="year">
+                        <strong class="number" data-number="{{ i.experience}}">0</strong>
+                        <span>Years of Experience In Business</span>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="ftco-section ftco-no-pb">
+    <div class="container">
+        <div class="row">
+            {% for i in liquid %}
+            <div class="col-lg-2 col-md-4 ">
+                <div class="sort w-100 text-center ftco-animate">
+                    <div class="img"
+                        style="background-image: url('{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')">
+                    </div>
+                    <h3>{{ i.name }}</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

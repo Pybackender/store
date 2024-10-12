@@ -1,0 +1,20 @@
+{% load static %}
+<section class="ftco-intro">
+    <div class="container">
+        <div class="row no-gutters">
+            {% for i in support %}
+            <div class="col-md-3 d-flex"> <!-- Change col-md-4 to col-md-3 -->
+                <div class="intro d-lg-flex w-100 ftco-animate">
+                    <div class="icon">
+                        <span class="{{ i.icons }}"></span>
+                    </div>
+                    <div class="text">
+                        <h2>{{ i.title }}</h2>
+                        <p>{{ i.content }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

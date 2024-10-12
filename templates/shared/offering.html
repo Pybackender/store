@@ -1,0 +1,56 @@
+{% load static %}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center pb-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading">Our Delightful offerings</span>
+                <h2>Tastefully Yours</h2>
+            </div>
+        </div>
+        <div class="row">
+            {% for i in offering %}
+            <div class="col-md-3 d-flex mb-4"> <!-- Change to col-md-3 for 4 items per row -->
+                <div class="product ftco-animate w-100"> <!-- Added w-100 for full width -->
+                    <div class="img d-flex align-items-center justify-content-center"
+                        style="background-image: url('{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')">
+                        <div class="desc">
+                            <p class="meta-prod d-flex">
+                                <a href="{{ i.link }}" class="d-flex align-items-center justify-content-center"><span
+                                        class="flaticon-shopping-bag"></span></a>
+                                <a href="{{ i.link }}" class="d-flex align-items-center justify-content-center"><span
+                                        class="flaticon-heart"></span></a>
+                                <a href="{{ i.link }}" class="d-flex align-items-center justify-content-center"><span
+                                        class="flaticon-visibility"></span></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text text-center">
+                        {% if i.on_sale %}
+                        <span class="sale">Sale</span>
+                        {% endif %}
+                        {% if i.best_seller %} <!-- Corrected case -->
+                        <span class="seller">Best Seller</span>
+                        {% endif %}
+                        {% if i.new_arrival %} <!-- Corrected case -->
+                        <span class="new">New Arrival</span>
+                        {% endif %}
+                        <span class="category">{{ i.name }}</span>
+                        <h2>{{ i.type }}</h2>
+                        <p class="mb-0"><span class="price price-sale">${{ i.last_price }}</span> <span
+                                class="price">${{ i.price }}</span>
+                        </p>
+                    </div>
+                    <p><a href="product" class="btn btn-primary py-3 px-5 mr-2">store...</a></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <a href="product.html" class="btn btn-primary d-block">View All Products <span
+                        class="fa fa-long-arrow-right"></span></a>
+            </div>
+        </div>
+    </div>
+</section>

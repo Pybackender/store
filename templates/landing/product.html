@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Liquor Store - Free Bootstrap 4 Template by Colorlib</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	{% include '../partials/_style.html' %}
+</head>
+
+<body>
+
+	<div class="wrap">
+		<div class="container">
+			<div class="row">
+				{% for i in info %}
+				<div class="col-md-6 d-flex align-items-center">
+					<p class="mb-0 phone pl-md-2">
+						<a href="tel:{{ i.phone }}" class="mr-2"><span class="fa fa-phone mr-1"></span>{{ i.phone}}</a>
+						<a href="https://t.me/{{ i.telegram }}"><span class="fa fa-paper-plane mr-1"></span>
+							{{i.telegram }}<a>
+					</p>
+				</div>
+				{% endfor %}
+				<div class="col-md-6 d-flex justify-content-md-end">
+					{% for i in info %}
+					<div class="social-media mr-4">
+						<p class="mb-0 d-flex">
+							<a href="{{ i.facebook }}" class="d-flex align-items-center justify-content-center"><span
+									class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
+							<a href="{{ i.discord }}" class="d-flex align-items-center justify-content-center"><span
+									class="fab fa-discord"><i class="sr-only">discord</i></span></a>
+							<a href="{{ i.instagram }}" class="d-flex align-items-center justify-content-center"><span
+									class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
+						</p>
+					</div>
+					{% endfor %}
+					<div class="reg">
+						<p class="mb-0"><a href="register/" class="mr-2">Sign Up</a> <a href="login/">Log In</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% include 'shared/nav.html' %}
+	<!-- END nav -->
+
+	<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');"
+		data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-end justify-content-center">
+				<div class="col-md-9 ftco-animate mb-5 text-center">
+					<p class="breadcrumbs mb-0"><span class="mr-2"><a href="index">Home <i
+									class="fa fa-chevron-right"></i></a></span> <span>Products <i
+								class="fa fa-chevron-right"></i></span></p>
+					<h2 class="mb-0 bread">Products</h2>
+				</div>
+			</div>
+		</div>
+	</section>
+	<style>
+        .resp-tabs-list {
+            display: flex; /* Use Flexbox for horizontal alignment */
+            list-style: none; /* Remove default list styling */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+        }
+
+        .resp-tab-item {
+            margin-right: 20px; /* Space between items */
+            padding: 10px 15px; /* Padding for items */
+            cursor: pointer; /* Pointer cursor on hover */
+            border: 1px solid transparent; /* Default border */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s, border-color 0.3s; /* Smooth transitions */
+        }
+
+        .resp-tab-item:hover {
+            background-color: #f0f0f0; /* Light background on hover */
+            border-color: #007bff; /* Border color on hover */
+        }
+
+        .resp-tab-item.active {
+            background-color: #007bff; /* Active tab background */
+            color: white; /* Active tab text color */
+            border-color: #007bff; /* Active border color */
+        }
+    </style>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<div class="row mb-4">
+						<div class="col-md-12 d-flex justify-content-between align-items-center">
+							<ul class="resp-tabs-list">
+								<li class="resp-tab-item" aria-controls="tab_item-0" role="tab">
+									<a href="?">ALL</a>
+								</li>
+								{% for cat in categories %}
+								<li class="resp-tab-item" aria-controls="tab_item-{{ forloop.counter }}" role="tab">
+									<a href="?category={{ cat.id }}">{{ cat.title }}</a>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						{% for product in products %}
+						<div class="col-md-4 d-flex">
+							<div class="product ftco-animate">
+								<div class="img d-flex align-items-center justify-content-center"
+									 style="background-image: url('{% if product.image and product.image.url %}{{ product.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')">
+									<div class="desc">
+										<p class="meta-prod d-flex">
+											<a href="#" class="d-flex align-items-center justify-content-center"><span
+													class="flaticon-shopping-bag"></span></a>
+											<a href="#" class="d-flex align-items-center justify-content-center"><span
+													class="flaticon-heart"></span></a>
+											<a href="#" class="d-flex align-items-center justify-content-center"><span
+													class="flaticon-visibility"></span></a>
+										</p>
+									</div>
+								</div>
+								<div class="text text-center">
+									{% if product.on_sale %}
+									<span class="sale">Sale</span>
+									{% endif %}
+									{% if product.best_seller %}
+									<span class="seller">Best Seller</span>
+									{% endif %}
+									{% if product.new_arrival %}
+									<span class="new">New Arrival</span>
+									{% endif %}
+									<span class="category">{{ product.name }}</span>
+									<h2>{{ product.type }}</h2>
+									<p class="mb-0"><span class="price price-sale">${{ product.last_price }}</span> <span
+											class="price">${{ product.price }}</span>
+									</p>
+								</div>
+								<form action="{% url 'cart:cart_add' product.id %}" method="post">
+									{% csrf_token %}
+									<input type="hidden" name="quantity" value="1">  <!-- Default quantity -->
+									<p><button type="submit" class="btn btn-primary py-3 px-5 mr-2">Add to Cart</button></p>
+								</form>
+								
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					
+
+					<div class="row mt-5">
+						<div class="col text-center">
+							<div class="block-27">
+								<ul>
+									{% if products_has_previous %}
+									<li><a href="?page={{ products_previous_page }}">&lt;</a></li>
+									{% endif %}
+									{% for num in products_page_range %}
+									<li class="{% if num == products_number %}active{% endif %}"><a href="?page={{ num }}">{{ num }}</a></li>
+									{% endfor %}
+									{% if products_has_next %}
+									<li><a href="?page={{ products_next_page }}">&gt;</a></li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+	
+				<div class="col-md-3">
+					<div class="sidebar-box ftco-animate">
+						<div class="categories">
+							<h3>Product Types</h3>
+							{% for i in categories %}
+							<ul class="p-0">
+								<li><a href="#">{{ i.title }} <span class="fa fa-chevron-right"></span></a></li>
+								
+							</ul>
+							{% endfor %}
+						</div>
+					</div>
+	
+					<div class="sidebar-box ftco-animate">
+						<h3>Recent Blog</h3>
+						{% for i in blog %}
+						<div class="block-21 mb-4 d-flex">
+							<a class="blog-img mr-4" style="background-image: url('{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')"></a>
+							<div class="text">
+								<h3 class="heading"><a href="#">{{ i.content }}</a></h3>
+								<div class="meta">
+									<div><a href="#"><span class="fa fa-calendar"></span>{{ i.date }}</a></div>
+									<div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+	{% include 'shared/info.html' %}
+
+
+
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+				stroke="#F96D00" />
+		</svg></div>
+
+
+	{% include '../partials/_scripts.html' %}
+
+</body>
+
+</html>

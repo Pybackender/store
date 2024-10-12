@@ -1,0 +1,59 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="index">Liquor <span>store</span></a>
+
+        <div class="order-lg-last btn-group">
+            <a href="cart" class="btn-cart dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="flaticon-shopping-bag"></span>
+                <div class="d-flex justify-content-center align-items-center">
+                    <small>{{ cart|length }}</small> <!-- Display total number of items -->
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                {% for item in cart %}
+                <div class="dropdown-item d-flex align-items-start">
+                    <div class="img"
+                        style="background-image: url('{% if item.product.image and item.product.image.url %}{{ item.product.image.url }}{% else %}{% static 'assets/img/no_image.png' %} {% endif %}')">
+                    </div>
+                    <div class="text pl-3">
+                        <h4>{{ item.product.name }}</h4>
+                        <p class="mb-0">
+                            <a href="cart" class="price">${{ item.price }}</a>
+                            <span class="quantity ml-3">Quantity: {{ item.quantity }}</span>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+                <a class="dropdown-item text-center btn-link d-block w-100" href="cart">
+                    View All
+                    <span class="ion-ios-arrow-round-forward"></span>
+                </a>
+            </div>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="index" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="about" class="nav-link">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Products</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        <a class="dropdown-item" href="product">Products</a>
+                        <a class="dropdown-item" href="product-single">Single Product</a>
+                        <a class="dropdown-item" href="cart">Cart</a>
+                        <a class="dropdown-item" href="checkout">Checkout</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="blog" class="nav-link">Blog</a></li>
+                <li class="nav-item"><a href="contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

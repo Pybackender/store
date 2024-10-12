@@ -1,0 +1,60 @@
+{% load static %}
+{% for i in single %}
+<div class="row">
+    <div class="col-lg-6 mb-5 ftco-animate">
+        <a href="{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}"
+            class="image-popup prod-img-bg"><img
+                src="{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}"
+                class="img-fluid" alt="{{ i.name }}"></a>
+    </div>
+    <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+        <h3>{{ i.name }}</h3>
+        <div class="rating d-flex">
+            <p class="text-left mr-4">
+                <a href="#" class="mr-2">{{ i.stars|default:0|floatformat:1 }}</a>
+                {% for star in "12345" %}
+                    <a href="#">
+                        <span class="fa fa-star {% if forloop.counter <= i.stars %}checked{% endif %}"></span>
+                    </a>
+                {% endfor %}
+            </p>
+            <p class="text-left mr-4">
+                <a href="#" class="mr-2" style="color: #000;">{{ i.rating|default:0 }} <span style="color: #bbb;">Rating</span></a>
+            </p>
+            <p class="text-left">
+                <a href="#" class="mr-2" style="color: #000;">{{ i.sold|default:0 }} <span style="color: #bbb;">Sold</span></a>
+            </p>
+        </div>
+        
+        <p class="price"><span>${{ i.price|default:0 }}</span></p>
+        <p>{{ i.content }}</p>
+        <div class="row mt-4">
+            <div class="input-group col-md-6 d-flex mb-3">
+                <span class="input-group-btn mr-2">
+                    <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </span>
+                <input type="text" id="quantity" name="quantity" class="quantity form-control input-number" value="1"
+                    min="1" max="100">
+                <span class="input-group-btn ml-2">
+                    <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </span>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-12">
+                <p style="color: #000;">{{ i.piece_available }} piece available</p>
+            </div>
+        </div>
+        
+        <p><form action="{% url 'cart:cart_add' i.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">  <!-- Default quantity -->
+            <p><button type="submit" class="btn btn-primary py-3 px-5 mr-2">Add to Cart</button></p>
+        </form><a href="cart"
+                class="btn btn-primary py-3 px-5">Buy now</a></p>
+    </div>
+</div>
+{% endfor %}
