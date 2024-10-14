@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from info.models import Info
+from single.models import Single
 from store.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
@@ -12,7 +13,7 @@ from .forms import CartAddProductForm
 def cart_add(request, product_id):
     cart = Cart(request)  # Ensure this line is correct
     product = get_object_or_404(Product, id=product_id)
-    quantity = int(request.POST.get('quantity', 1))  # Get quantity from the form
+    quantity = int(request.POST.get('quantity', 1))
     cart.add(product=product, quantity=quantity, override_quantity=True)  # This should work if add is defined
     return redirect('cart:cart_detail')
 

@@ -62,6 +62,11 @@ class Review(models.Model):
     date = models.DateField()
     content = models.CharField(max_length=500)
     image = models.ImageField(null=True,blank=True)
+    stars = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
 
     class Meta:
         verbose_name = "Review"

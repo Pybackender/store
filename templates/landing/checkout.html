@@ -81,8 +81,8 @@
 			</tbody>
 		</table>
 	</div>
-	
-	
+
+
 	{% block messages %}
 	{% if messages %}
 	<ul class="messagelist">
@@ -170,13 +170,17 @@
 									{{ form.different_address }} {{ form.different_address.label }}
 								</div>
 							</div>
+							{% for item in cart_items %}
+							<input type="hidden" name="product_names" value="{{ item.product.name }}">
+							<input type="hidden" name="quantities" value="{{ item.quantity }}">
+							{% endfor %}
 							<input type="hidden" name="total_price" value="{{ total_price }}">
-							
+
 						</div>
 						<p><button type="submit" class="btn btn-primary py-3 px-4">Place an order</button></p>
 						<a href="product">Continue shopping</a>
 					</form>
-					
+
 					<!-- END -->
 
 

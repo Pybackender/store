@@ -15,6 +15,8 @@ class Checkout(models.Model):
     different_address = models.BooleanField(default=False)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    product_names = models.TextField(blank=True, null=True)  # Use TextField for potentially long strings
+    quantities = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = "checkout"

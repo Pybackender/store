@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
-from account.views import aboutView, accountView, blogView, checkoutView, contactView, productView, productsingleView, register, user_login
+from account.views import aboutView, accountView, blogView, blogsingleView, checkoutView, contactView, productView, productsingleView, register, socialbackenderView, user_login
 from liquid import settings
 
 urlpatterns = [
@@ -15,10 +15,13 @@ urlpatterns = [
     path('product', productView, name="product"),
     path('product-single', productsingleView, name="product-single"),
     path('checkout', checkoutView, name="checkout"),
+    path('social-backender', socialbackenderView, name="social-backender"),
+    path('blog-single', blogsingleView, name="blog-single"),
     path('login/', user_login, name='login'),
     # path('', include('django.contrib.auth.urls')),
     path('register/',register, name='register'),
     path('cart/', include('cart.urls', namespace='cart')),
+    
 
 
 ]

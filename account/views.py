@@ -206,13 +206,11 @@ def productView(request):
 
 def productsingleView(request):
     single = Single.objects.all()
-    print(single,1111111111111111111111111111111111111111111)
     description = Description.objects.all()
     manufacturer = Manufacturer.objects.all()
     review = Review.objects.all()
     info = Info.objects.all()
     cart = Cart(request)
-    # item.singnal.name
 
     return render(request, 'landing/product-single.html', context={
         'single': single,
@@ -237,9 +235,22 @@ def checkoutView(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
-            form.instance.total_price = cart.get_total_price() + delivery  - count
+            checkout_instance = form.save(commit=False)
+            checkout_instance.total_price = total_price
 
-            form.save()
+            # Collect product names and quantities
+            product_names = []
+            quantities = []
+            for item in cart:  # Iterate over items in the cart
+                product_names.append(item['product'].name)  # Access the product's name attribute
+                quantities.append(item['quantity'])  # Access the stored quantity
+
+            # Assign the product names and quantities to the instance
+            checkout_instance.product_names = ', '.join(product_names)
+            checkout_instance.quantities = ', '.join(map(str, quantities))
+
+            # Save the instance
+            checkout_instance.save()
             messages.success(request, "Your message has been sent successfully!")
             return HttpResponseRedirect("/checkout")
     else:
@@ -256,4 +267,35 @@ def checkoutView(request):
 
     })
 
+# views.py
 
+def socialbackenderView(request):
+    info = Info.objects.all()
+    context = {
+        'info': info,
+    }
+
+    return render(request, 'landing/main.html', context)
+
+def blogsingleView(request):
+    info = Info.objects.all()
+    cart = Cart(request)
+    blog = Blog.objects.all()  # Assuming Blog is your model
+    paginator = Paginator(blog, 4)  # Show 4 blogs per page
+
+    page_number = request.GET.get('page')
+    blog_list = paginator.get_page(page_number)
+
+    context = {
+        'info': info,
+        'cart': cart,
+        'blog_list': blog_list,
+        'blog_has_previous': blog_list.has_previous(),
+        'blog_previous_page': blog_list.previous_page_number() if blog_list.has_previous() else None,
+        'blog_has_next': blog_list.has_next(),
+        'blog_next_page': blog_list.next_page_number() if blog_list.has_next() else None,
+        'blog_number': blog_list.number,
+        'blog_page_range': paginator.page_range,
+    }
+
+    return render(request, 'landing/blog-single.html', context)

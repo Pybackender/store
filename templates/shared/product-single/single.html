@@ -3,9 +3,10 @@
 <div class="row">
     <div class="col-lg-6 mb-5 ftco-animate">
         <a href="{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}"
-            class="image-popup prod-img-bg"><img
-                src="{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}"
-                class="img-fluid" alt="{{ i.name }}"></a>
+            class="image-popup prod-img-bg">
+            <img src="{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}"
+                class="img-fluid" alt="{{ i.name }}">
+        </a>
     </div>
     <div class="col-lg-6 product-details pl-md-5 ftco-animate">
         <h3>{{ i.name }}</h3>
@@ -49,12 +50,13 @@
             </div>
         </div>
         
-        <p><form action="{% url 'cart:cart_add' i.id %}" method="post">
+        <form action="{% url 'cart:cart_add' i.id %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="quantity" value="1">  <!-- Default quantity -->
-            <p><button type="submit" class="btn btn-primary py-3 px-5 mr-2">Add to Cart</button></p>
-        </form><a href="cart"
-                class="btn btn-primary py-3 px-5">Buy now</a></p>
+            <button type="submit" class="btn btn-primary py-3 px-5">Add to Cart</button>
+            
+        </form>
+        
     </div>
 </div>
 {% endfor %}

@@ -62,7 +62,7 @@ class CheckoutForm(forms.ModelForm):
         fields = [
             'first_name', 'last_name', 'country', 'street_address',
             'apartment', 'city', 'postcode', 'phone', 'email',
-            'create_account', 'different_address', 'total_price'
+            'create_account', 'different_address', 'total_price','product_names','quantities'
         ]
 
     first_name = forms.CharField(max_length=100, label='First Name')
@@ -82,14 +82,14 @@ class CheckoutForm(forms.ModelForm):
     )
     total_price = forms.DecimalField(widget=forms.HiddenInput())
     street_address = forms.CharField(max_length=255, label='Street Address')
-    apartment = forms.CharField(
-        max_length=255, required=False, label='Apartment, suite, unit etc: (optional)')
+    apartment = forms.CharField(max_length=255, required=False, label='Apartment, suite, unit etc: (optional)')
     city = forms.CharField(max_length=100, label='Town / City')
     postcode = forms.CharField(max_length=20, label='Postcode / ZIP')
     phone = forms.CharField(max_length=20, label='Phone')
     email = forms.EmailField(label='Email Address')
-    create_account = forms.BooleanField(
-        required=False, label='Create an Account?')
-    different_address = forms.BooleanField(
-        required=False, label='Ship to different address')
+    create_account = forms.BooleanField(required=False, label='Create an Account?')
+    different_address = forms.BooleanField(required=False, label='Ship to different address')
 
+    # These fields will not be saved directly in the model
+    product_names = forms.CharField(widget=forms.HiddenInput(), required=False)
+    quantities = forms.CharField(widget=forms.HiddenInput(), required=False)

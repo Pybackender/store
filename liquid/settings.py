@@ -159,3 +159,4 @@ MESSAGE_TAGS = {
 }
 
 CART_SESSION_ID = 'cart'
+DEBUG = True
