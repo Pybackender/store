@@ -3,9 +3,11 @@ from decimal import Decimal
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 
 from cart.cart import Cart
 from contact.models import Company, Contactus
+from faq.models import Faq
 from single.models import Description, Manufacturer, Review, Single
 from store.models import Category, Product
 from .forms import CheckoutForm, ContactusForm, LoginForm, UserRegistrationForm
@@ -15,7 +17,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 
 from about.models import About, Liquid
-from account.models import User
+from account.models import Image, User
 from blog.models import Blog
 from info.models import Info
 from offering.models import Offering
@@ -30,6 +32,7 @@ User = get_user_model()
 
 def accountView(request):
     user = User.objects.all()
+    image = Image.objects.all()
     support = Support.objects.all()
     about = About.objects.all()
     liquid = Liquid.objects.all()
@@ -42,6 +45,7 @@ def accountView(request):
 
     return render(request, 'landing/index.html', context={
         'user': user,
+        'image': image,
         'support': support,
         'about': about,
         'liquid': liquid,
@@ -93,6 +97,8 @@ def register(request):
 
 
 def aboutView(request):
+    user = User.objects.all()
+    image = Image.objects.all()
     support = Support.objects.all()
     about = About.objects.all()
     comment = Comment.objects.all()
@@ -102,17 +108,21 @@ def aboutView(request):
 
     return render(request, 'landing/about.html', context={
         'support': support,
+        'image': image,
         'about': about,
         'experiense': experiense,
         'comment': comment,
         'info': info,
         'cart': cart,
+        'user': user,
 
     })
 
 
 def blogView(request):
     info = Info.objects.all()
+    image = Image.objects.all()
+    user = User.objects.all()
     cart = Cart(request)
     blog = Blog.objects.all()  # Assuming Blog is your model
     paginator = Paginator(blog, 4)  # Show 4 blogs per page
@@ -122,7 +132,9 @@ def blogView(request):
 
     context = {
         'info': info,
+        'iamge': image,
         'cart': cart,
+        'user': user,
         'blog_list': blog_list,
         'blog_has_previous': blog_list.has_previous(),
         'blog_previous_page': blog_list.previous_page_number() if blog_list.has_previous() else None,
@@ -137,7 +149,9 @@ def blogView(request):
 
 def contactView(request):
     contactus = Contactus.objects.all()
+    user = User.objects.all()
     company = Company.objects.all()
+    image = Image.objects.all()
     info = Info.objects.all()
     cart = Cart(request)
 
@@ -162,7 +176,9 @@ def contactView(request):
 
     return render(request, 'landing/contact.html', context={
         'company': company,
+        'user': user,
         'contactus': contactus,
+        'image': image,
         'info': info,
         'form': form,
         'cart': cart,
@@ -172,6 +188,8 @@ def contactView(request):
 
 def productView(request):
     products = Product.objects.all()
+    image = Image.objects.all()
+    user = User.objects.all()
     blog = Blog.objects.all().order_by('-date')
     info = Info.objects.all()
     cart = Cart(request)
@@ -188,7 +206,9 @@ def productView(request):
 
     context = {
         'info': info,
+        'image': image,
         'cart': cart,
+        'user': user,
         'products': products_list,
         'categories': categories,
         'blog': blog,
@@ -205,6 +225,8 @@ def productView(request):
 
 
 def productsingleView(request):
+    user = User.objects.all()
+    image = Image.objects.all()
     single = Single.objects.all()
     description = Description.objects.all()
     manufacturer = Manufacturer.objects.all()
@@ -213,6 +235,8 @@ def productsingleView(request):
     cart = Cart(request)
 
     return render(request, 'landing/product-single.html', context={
+        'user': user,
+        'image': image,
         'single': single,
         'description': description,
         'manufacturer': manufacturer,
@@ -225,6 +249,8 @@ def productsingleView(request):
 
 def checkoutView(request):
     info = Info.objects.all()
+    image = Image.objects.all()
+    user = User.objects.all()
     cart = Cart(request)
     count = Decimal('0.02')  # Convert the float to Decimal
     discount = Decimal(cart.get_total_price()) * count
@@ -242,8 +268,10 @@ def checkoutView(request):
             product_names = []
             quantities = []
             for item in cart:  # Iterate over items in the cart
-                product_names.append(item['product'].name)  # Access the product's name attribute
-                quantities.append(item['quantity'])  # Access the stored quantity
+                # Access the product's name attribute
+                product_names.append(item['product'].name)
+                # Access the stored quantity
+                quantities.append(item['quantity'])
 
             # Assign the product names and quantities to the instance
             checkout_instance.product_names = ', '.join(product_names)
@@ -251,34 +279,46 @@ def checkoutView(request):
 
             # Save the instance
             checkout_instance.save()
-            messages.success(request, "Your message has been sent successfully!")
+            messages.success(
+                request, "Your message has been sent successfully!")
             return HttpResponseRedirect("/checkout")
     else:
-        form = CheckoutForm(initial={'total_price': cart.get_total_price() + delivery - count})
+        form = CheckoutForm(
+            initial={'total_price': cart.get_total_price() + delivery - count})
 
     return render(request, 'landing/checkout.html', context={
+        'user': user,
+        'image': image,
         'info': info,
         'cart': cart,
         'form': form,
         'discount': discount,
         'delivery': delivery,
         'total_price': total_price,
-        
+
 
     })
 
 # views.py
 
+
 def socialbackenderView(request):
     info = Info.objects.all()
+    image = Image.objects.all()
+    user = User.objects.all()
     context = {
         'info': info,
+        'user': user,
+        'image': image,
     }
 
     return render(request, 'landing/main.html', context)
 
+
 def blogsingleView(request):
     info = Info.objects.all()
+    image = Image.objects.all()
+    user = User.objects.all()
     cart = Cart(request)
     blog = Blog.objects.all()  # Assuming Blog is your model
     paginator = Paginator(blog, 4)  # Show 4 blogs per page
@@ -287,6 +327,8 @@ def blogsingleView(request):
     blog_list = paginator.get_page(page_number)
 
     context = {
+        'user': user,
+        'image': image,
         'info': info,
         'cart': cart,
         'blog_list': blog_list,
@@ -299,3 +341,28 @@ def blogsingleView(request):
     }
 
     return render(request, 'landing/blog-single.html', context)
+
+
+def faqView(request):
+    info = Info.objects.all()
+    user = User.objects.all()
+    image = Image.objects.all()
+    faq = Faq.objects.all()
+    context = {
+        'faq': faq,
+        'iamge': image,
+        'info': info,
+        'user': user,
+    }
+
+    return render(request, 'landing/faq.html', context)
+
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.urls import reverse_lazy
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'password_change.html'
+    success_url = reverse_lazy('password_change_done')
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'password_change_done.html'

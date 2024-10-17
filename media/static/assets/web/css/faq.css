@@ -1,0 +1,71 @@
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* FAQ Section */
+.faq-section {
+    margin-top: 40px;
+    overflow: hidden;
+    display: block;
+}
+
+.faq-item {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    float: left; /* Float items to the left */
+    width: calc(100% - 40px); /* Adjust width to account for padding/margins */
+}
+
+/* Title and Date Styles */
+.faq-title {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.date {
+    font-size: 0.9rem;
+    color: #666;
+    float: left;
+}
+
+/* Phone and Social Media Links */
+.phone a,
+.social-media a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.phone a:hover,
+.social-media a:hover {
+    text-decoration: underline;
+}
+
+/* Registration Links */
+.reg a {
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.reg a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .faq-title {
+        font-size: 1.25rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}

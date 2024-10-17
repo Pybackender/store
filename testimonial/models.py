@@ -6,7 +6,8 @@ from django.db import models
 class Comment(models.Model):
     name = models.CharField(max_length=125)
     content = models.CharField(max_length=125)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(
+        upload_to="comment/%Y/%m/%d", null=True, blank=True)
     position = models.CharField(max_length=125)
 
     class Meta:

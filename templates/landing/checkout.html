@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,9 +46,11 @@
 	</div>
 
 	{% include 'shared/nav.html' %} <!-- END nav -->
-
-	<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');"
+	{% for i in image %}
+	<section class="hero-wrap hero-wrap-2"
+		style="background-image: url('{% if i.image %}{{ i.image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')"
 		data-stellar-background-ratio="0.5">
+		{% endfor %}
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row no-gutters slider-text align-items-end justify-content-center">

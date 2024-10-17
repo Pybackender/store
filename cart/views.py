@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from account.models import Image, User
 from info.models import Info
 from single.models import Single
 from store.models import Product
@@ -29,6 +30,8 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
     cart = Cart(request)
+    image =Image.objects.all()
+    user = User.objects.all()
     count = Decimal('0.02')  # Convert the float to Decimal
     discount = Decimal(cart.get_total_price()) * count
     delivery = Decimal('0.05') * Decimal(cart.get_total_price())
@@ -45,6 +48,8 @@ def cart_detail(request):
     total_price = cart.get_total_price()
     return render(request, 'landing/cart.html', context ={
         'cart': cart,
+        'user': user,
+        'image': image,
         'total_price': total_price,
         "products": products,
         "info": info,

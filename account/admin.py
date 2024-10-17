@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, IPAddress
+from .models import Image, User, IPAddress
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
 from .actions import make_active, make_deactive
@@ -27,3 +27,8 @@ class UserAdmin(DjangoUserAdmin):
 
     actions = [make_active, make_deactive]
     ordering = ('email',)
+
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['image','comment_image']

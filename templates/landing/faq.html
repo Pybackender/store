@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FAQs</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'assets/web/css/faq.css' %}">
+    {% include '../partials/_style.html' %}
+</head>
+<body>
+    <div class="wrap">
+        <div class="container">
+            <div class="row">
+                {% for i in info %}
+                <div class="col-md-6 d-flex align-items-center">
+                    <p class="mb-0 phone pl-md-2">
+                        <a href="tel:{{ i.phone }}" class="mr-2"><span class="fa fa-phone mr-1"></span>{{ i.phone }}</a>
+                        <a href="https://t.me/{{ i.telegram }}"><span class="fa fa-paper-plane mr-1"></span>{{ i.telegram }}</a>
+                    </p>
+                </div>
+                {% endfor %}
+                <div class="col-md-6 d-flex justify-content-md-end">
+                    {% for i in info %}
+                    <div class="social-media mr-4">
+                        <p class="mb-0 d-flex">
+                            <a href="{{ i.facebook }}" class="d-flex align-items-center justify-content-center"><span class="fab fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                            <a href="{{ i.discord }}" class="d-flex align-items-center justify-content-center"><span class="fab fa-discord"><i class="sr-only">Discord</i></span></a>
+                            <a href="{{ i.instagram }}" class="d-flex align-items-center justify-content-center"><span class="fab fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                        </p>
+                    </div>
+                    {% endfor %}
+                    <div class="reg">
+                        <p class="mb-0"><a href="register/" class="mr-2">Sign Up</a> <a href="login/">Log In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% include 'shared/nav.html' %}
+    
+    <div class="hero-wrap" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-center justify-content-center">
+                <div class="col-md-8 ftco-animate d-flex align-items-end">
+                    <div class="text w-100 text-center">
+                        <h1 class="mb-4"><span>FAQs</span> for your <span>Questions & Answers</span>.</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-section">
+        {% for i in faq %}
+        <div class="faq-item">
+            <h2 class="faq-title"><strong>{{ i.title }}</strong></h2>
+            <p class="date">Published: {{ i.publish }}</p>
+            <div class="faq-content"><h5><strong>{{ i.content|truncatewords:30|linebreaks }}</strong></h5></div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% include 'shared/info.html' %}
+    {% include '../partials/_scripts.html' %}
+</body>
+</html>

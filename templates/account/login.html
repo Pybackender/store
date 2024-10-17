@@ -6,6 +6,17 @@
 <form method="post">
     {{ form.as_p }}
     {% csrf_token %}
+    <p>
+        <a href="{% url 'password_reset' %}">
+            Forgotten your password?
+        </a>
+    </p>
     <p><input type="submit" value="Log in"></p>
+    If you don't have an account <a href="{% url "register" %}">register here</a><br>
+    
+        <a href="{% url 'index' %}">
+            or back to home page?
+    
+    </a>
 </form>
 {% endblock %}

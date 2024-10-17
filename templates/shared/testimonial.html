@@ -1,5 +1,7 @@
 {% load static %}
-<section class="ftco-section testimony-section img" style="background-image: url(images/bg_4.jpg);">
+{% for i in user %}
+<section class="ftco-section testimony-section img" style="background-image: url('{% if i.comment_image %}{{ i.comment_image.url }}{% else %}{% static 'assets/img/no_image.png' %}{% endif %}')">
+    {% endfor %}
     <div class="overlay"></div>
     <div class="container">
         <div class="row justify-content-center mb-5">

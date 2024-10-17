@@ -50,11 +50,10 @@ class IPAddress(models.Model):
 class User(AbstractUser):
     email = models.EmailField(unique=True, validators=[validate_email])
     username = None
-#     title = models.CharField(max_length=100, null=True, blank=True)
-#     read = models.CharField(max_length=125,null=True,blank=True)
-#     shop = models.CharField(max_length=125,null=True,blank=True)
-#     image = models.ImageField(
-#         upload_to="account/%Y/%m/%d", null=True, blank=True)
+    image = models.ImageField(
+        upload_to="account/%Y/%m/%d", null=True, blank=True)
+    comment_image = models.ImageField(upload_to="account/%Y/%m/%d",null=True, blank=True)
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -73,3 +72,15 @@ class User(AbstractUser):
     @property
     def get_avatar(self):
         return self.avatar.url if self.avatar else static('../static/assets/img/profile-picture-1.jpg')
+
+
+class Image(models.Model):
+    image = models.ImageField(
+        upload_to="account/%Y/%m/%d", null=True, blank=True)
+    comment_image = models.ImageField(upload_to="account/%Y/%m/%d",null=True, blank=True)
+    
+
+    class Meta:
+        verbose_name = ('image')
+        verbose_name_plural = ('images')
+   
